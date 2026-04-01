@@ -1,0 +1,19 @@
+<div class="container" style="padding-top:140px;">
+  <div class="section-label">Administration</div>
+  <h1 class="h1">Admin <span style="color:var(--accent);">Panel</span></h1>
+  <div id="adminLoginForm">
+    <div class="card" style="padding:40px; max-width:400px; margin:0 auto;">
+      <input type="password" id="adminPassword" placeholder="Enter password" class="fi">
+      <button class="btn-primary" onclick="window.adminLogin(document.getElementById('adminPassword').value)">Login</button>
+    </div>
+  </div>
+  <div id="adminContent" style="display: none;">
+    <div class="grid grid-2" style="gap:40px;">
+      <div id="adminProducts" class="card" style="padding:24px;"><h3>Products</h3><p>Total: <span id="adminProductCount">0</span></p></div>
+      <div id="adminOrders" class="card" style="padding:24px;"><h3>Orders</h3><p>Pending: <span id="adminOrderCount">0</span></p></div>
+      <div id="adminReviews" class="card" style="padding:24px;"><h3>Reviews</h3><p>Total: <span id="adminReviewCount">0</span></p></div>
+      <div id="adminSettings" class="card" style="padding:24px;"><h3>Settings</h3><p>Configuration options available</p></div>
+    </div>
+    <button class="btn-ghost" onclick="window.adminLogout()" style="margin-top: 20px;">Logout</button>
+  </div>
+</div>

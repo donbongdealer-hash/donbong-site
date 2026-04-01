@@ -1,0 +1,36 @@
+<div class="container" style="padding-top:140px;">
+  <div class="section-label">Research</div>
+  <h1 class="h1">Bong Hygiene <span style="color:var(--accent);">Science</span></h1>
+  <div class="hygiene-stats">
+    <div class="hygiene-stat"><div class="hygiene-stat-value">107</div><div>CFU/ml after 30 days</div></div>
+    <div class="hygiene-stat"><div class="hygiene-stat-value">2–3</div><div>Days for biofilm</div></div>
+    <div class="hygiene-stat"><div class="hygiene-stat-value">94%</div><div>Formula 420 efficiency</div></div>
+  </div>
+  <table class="data-table">
+    <thead><tr><th>Method</th><th>Resin Removal</th><th>Mineral Removal</th><th>Compatibility</th></tr></thead>
+    <tbody>
+      <tr><td>Isopropyl Alcohol + Salt</td><td><span class="method-badge badge-high">High</span></td><td><span class="method-badge badge-medium">Medium</span></td><td>Glass, ceramic, metal</td></tr>
+      <tr><td>Acids (vinegar)</td><td><span class="method-badge badge-medium">Medium</span></td><td><span class="method-badge badge-high">High</span></td><td>Glass, ceramic</td></tr>
+      <tr><td>Enzymatic Cleaners</td><td><span class="method-badge badge-medium">Medium</span></td><td><span class="method-badge badge-low">Low</span></td><td>All materials (safe)</td></tr>
+      <tr><td>Formula 420</td><td><span class="method-badge badge-high">Very High</span></td><td><span class="method-badge badge-medium">Medium</span></td><td>Glass, metal, ceramic</td></tr>
+    </tbody>
+  </table>
+  <div class="risk-timeline">
+    <div class="timeline-item"><strong>Day 1-2</strong> – Minimal Risk: fresh water</div>
+    <div class="timeline-item"><strong>Day 3-5</strong> – Initial biofilm formation</div>
+    <div class="timeline-item"><strong>Day 7-10</strong> – Increased risk, cleaning recommended</div>
+    <div class="timeline-item"><strong>Day 14+</strong> – High risk, urgent cleaning needed</div>
+    <div class="timeline-item"><strong>Day 30+</strong> – Critical risk, potential health hazard</div>
+  </div>
+  <div class="card" style="padding:28px;">
+    <h3>Interactive Simulator</h3>
+    <p>Select cleaning method to see efficiency:</p>
+    <div style="display:flex; gap:12px; margin:16px 0; flex-wrap: wrap;">
+      <button class="btn-ghost" data-method="iso">Iso + Salt</button>
+      <button class="btn-ghost" data-method="f420">Formula 420</button>
+      <button class="btn-ghost" data-method="vinegar">Vinegar</button>
+      <button class="btn-ghost" data-method="enzyme">Enzymatic</button>
+    </div>
+    <div id="simResult" style="font-size:1.2rem; font-weight:700;">Efficiency: —</div>
+  </div>
+</div>
