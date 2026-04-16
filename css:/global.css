@@ -1063,3 +1063,55 @@ h3,
   color: var(--text-primary);
   transition: var(--transition);
 }
+/* AI admin panel */
+.ai-card h3 {
+  margin-bottom: 8px;
+}
+
+.ai-help {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.ai-label {
+  display: block;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  margin: 10px 0 6px;
+}
+
+.ai-response-wrap {
+  margin-top: 14px;
+}
+
+.ai-response,
+.ai-log {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 130px;
+  max-height: 280px;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #d7ffe6;
+}
+
+.ai-log-line {
+  padding: 6px 8px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.ai-log-ok {
+  color: #7cffb7;
+}
+
+.ai-log-error {
+  color: #ff9f9f;
+}
