@@ -4,6 +4,7 @@ import { addToCart, checkout, renderCartModal } from './cart.js';
 import { closeModal, showToast } from './utils.js';
 import { mountPurityAudit } from '../components/PurityAudit.js';
 import { mountSocialHub } from '../components/SocialHub.js';
+import { initAIControlPanel } from './aiControl.js';
 
 window.showProductModal = showProductModal;
 window.toggleFavorite = toggleFavorite;
@@ -32,6 +33,9 @@ async function loadPage(pageId, containerId = 'page-container') {
         await fetchProducts();
         renderFavorites(allProducts);
       }
+    }
+    else if (pageId === 'admin') {
+      initAIControlPanel();
     }
   } catch (err) {
     console.error(`Failed to load page ${pageId}:`, err);

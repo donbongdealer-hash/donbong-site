@@ -1,19 +1,59 @@
-<div class="container" style="padding-top:140px;">
+<div class="container" style="padding-top:140px; padding-bottom:80px;">
   <div class="section-label">Administration</div>
-  <h1 class="h1">Admin <span style="color:var(--accent);">Panel</span></h1>
-  <div id="adminLoginForm">
-    <div class="card" style="padding:40px; max-width:400px; margin:0 auto;">
-      <input type="password" id="adminPassword" placeholder="Enter password" class="fi">
-      <button class="btn-primary" onclick="window.adminLogin(document.getElementById('adminPassword').value)">Login</button>
-    </div>
-  </div>
-  <div id="adminContent" style="display: none;">
-    <div class="grid grid-2" style="gap:40px;">
-      <div id="adminProducts" class="card" style="padding:24px;"><h3>Products</h3><p>Total: <span id="adminProductCount">0</span></p></div>
-      <div id="adminOrders" class="card" style="padding:24px;"><h3>Orders</h3><p>Pending: <span id="adminOrderCount">0</span></p></div>
-      <div id="adminReviews" class="card" style="padding:24px;"><h3>Reviews</h3><p>Total: <span id="adminReviewCount">0</span></p></div>
-      <div id="adminSettings" class="card" style="padding:24px;"><h3>Settings</h3><p>Configuration options available</p></div>
-    </div>
-    <button class="btn-ghost" onclick="window.adminLogout()" style="margin-top: 20px;">Logout</button>
+  <h1 class="h1">AI <span style="color:var(--accent);">Control Panel</span></h1>
+  <p class="section-sub">Визуальный интерфейс для управления командами Wix и отправки запросов к AI через ваш Flask-шлюз.</p>
+
+  <div id="aiControlPanel" class="grid grid-2" style="align-items:start; gap:20px;">
+    <section class="card ai-card" style="padding:24px;">
+      <h3>1) Подключение</h3>
+      <p class="ai-help">Эти настройки сохраняются локально в вашем браузере.</p>
+      <label class="ai-label" for="wixEndpoint">Wix endpoint</label>
+      <input id="wixEndpoint" class="fi" placeholder="https://your-site.com/_functions/aiIntegration" />
+
+      <label class="ai-label" for="flaskEndpoint">Flask endpoint</label>
+      <input id="flaskEndpoint" class="fi" placeholder="http://127.0.0.1:5000/ask" />
+
+      <label class="ai-label" for="apiToken">Bearer token</label>
+      <input id="apiToken" class="fi" type="password" placeholder="secret token" />
+
+      <button id="saveAiSettings" class="btn-primary" style="width:100%; margin-top:8px;">Сохранить настройки</button>
+    </section>
+
+    <section class="card ai-card" style="padding:24px;">
+      <h3>2) Команда в Wix</h3>
+      <p class="ai-help">Команда <code>updateHeadline</code> изменяет headline товара в коллекции.</p>
+
+      <label class="ai-label" for="cmdProductId">Product ID</label>
+      <input id="cmdProductId" class="fi" placeholder="12345" />
+
+      <label class="ai-label" for="cmdHeadline">New headline</label>
+      <input id="cmdHeadline" class="fi" placeholder="New Headline" />
+
+      <button id="runUpdateHeadline" class="btn-primary" style="width:100%; margin-top:8px;">Отправить команду</button>
+
+      <div class="ai-response-wrap">
+        <div class="ai-label">Ответ команды</div>
+        <pre id="commandResponse" class="ai-response">Ожидание запроса...</pre>
+      </div>
+    </section>
+
+    <section class="card ai-card" style="padding:24px;">
+      <h3>3) Запрос к AI</h3>
+      <p class="ai-help">Отправляет <code>{"message": "..."}</code> в Flask endpoint.</p>
+      <label class="ai-label" for="aiPrompt">Prompt</label>
+      <textarea id="aiPrompt" class="fi" rows="5" placeholder="Как синхронизировать коллекции Wix и CRM?"></textarea>
+      <button id="sendAiPrompt" class="btn-primary" style="width:100%; margin-top:8px;">Спросить AI</button>
+
+      <div class="ai-response-wrap">
+        <div class="ai-label">Ответ AI</div>
+        <pre id="aiResponse" class="ai-response">Ожидание запроса...</pre>
+      </div>
+    </section>
+
+    <section class="card ai-card" style="padding:24px;">
+      <h3>Журнал операций</h3>
+      <p class="ai-help">Локальный журнал сетевых действий из этой панели.</p>
+      <div id="aiLog" class="ai-log"></div>
+    </section>
   </div>
 </div>
