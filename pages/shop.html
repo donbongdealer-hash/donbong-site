@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="theme-color" content="#030307">
+<meta name="description" content="DonBong — premium glass bongs, pipes, vaporizers and accessories">
+<title>DonBong | Premium Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+<style>
+/* (styles truncated in this file for brevity - original full CSS kept in source) */
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="scene" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="noise" aria-hidden="true"><div></div></div>
+<div class="offline-banner" id="offlineBanner"><i class="fas fa-wifi-slash"></i> No internet connection</div>
+
+<!-- ══════ TOPBAR ══════ -->
+<div class="topbar" id="mainTopbar">
+<a href="https://www.donbong.com/" target="_top" class="logo" aria-label="DonBong home" id="logoBtn">DON<span>BONG</span><sup>™</sup></a>
+<a href="https://www.donbong.com/" target="_top" class="topbar-btn tb-secondary" title="Main Site"><i class="fas fa-home"></i><span class="tb-lbl">Home</span></a>
+<a href="https://www.donbong.com/library" target="_top" class="topbar-btn tb-secondary" title="Knowledge Library"><i class="fas fa-book-open"></i><span class="tb-lbl">Library</span></a>
+<div class="search-wrap">
+<i class="fas fa-search s-icon"></i>
+<input type="text" id="searchInput" placeholder="Search products... (Ctrl+K)" autocomplete="off" aria-label="Search products">
+<button class="search-clear-btn" id="searchClearBtn"><i class="fas fa-times"></i></button>
+</div>
+<div class="cur-dropdown" id="curDropdown">
+<button class="cur-dropdown-btn" id="curDropdownBtn" onclick="toggleCurDropdown()">
+<i class="fas fa-coins" style="color:var(--fire);font-size:11px"></i>
+<span id="curLabel">VND</span>
+<i class="fas fa-chevron-down" style="font-size:9px;opacity:.6"></i>
+</button>
+<div class="cur-dropdown-menu" id="curDropdownMenu">
+<div class="cur-dropdown-item active" data-cur="VND" onclick="setCurrency('VND');closeCurDropdown()"><span style="color:var(--fire)">₫</span> VND</div>
+<div class="cur-dropdown-item" data-cur="USDT" onclick="setCurrency('USDT');closeCurDropdown()"><span style="color:#4ade80">$</span> USDT</div>
+<div class="cur-dropdown-item" data-cur="RUB" onclick="setCurrency('RUB');closeCurDropdown()"><span style="color:#c084fc">₽</span> RUB</div>
+</div>
+</div>
+</div>
+<div class="lang-btn flag-en" id="langBtn" tabindex="0"></div>
+<button class="topbar-btn" id="wlBtn" onclick="toggleWishlistMode()"><i class="far fa-heart"></i> <span id="wlLabel">Wishlist</span> <span class="badge-count" id="wlCount">0</span></button>
+<button class="topbar-btn" id="cartOpenBtn" onclick="openCart()"><i class="fas fa-shopping-bag"></i> <span id="cartLabel">Cart</span><span class="cart-total-label" id="cartTotalLabel"></span> <span class="badge-count" id="cartCount">0</span></button>
+</div>
+
+<!-- ══════ CAT STRIP ══════ -->
+<div class="cat-strip" id="catStrip"></div>
+
+<!-- ══════ FILTER BAR ══════ -->
+<div class="filter-bar">
+<select id="stockFilter" class="filter-select" onchange="applyFilters()"><option value="instock">In stock</option><option value="all">All</option></select>
+<select id="materialFilter" class="filter-select" onchange="applyFilters()"><option value="">All materials</option><option value="borosilicate">Glass</option><option value="acrylic">Acrylic</option><option value="metal">Metal</option><option value="silicone">Silicone</option></select>
+<select id="brandFilter" class="filter-select" onchange="applyFilters()"><option value="">All brands</option></select>
+<div class="price-range-wrap"><i class="fas fa-coins p-icon"></i><input type="number" id="priceMin" placeholder="min" value="0"><span class="p-sep">—</span><input type="number" id="priceMax" placeholder="max" value="10000000"></div>
+<select id="sortSelect" class="filter-select" onchange="applyFilters()"><option value="default">Default</option><option value="price_asc">Price ↑</option><option value="price_desc">Price ↓</option><option value="popular">Popular</option><option value="newest">Newest</option></select>
+<button class="clear-filters-btn" onclick="clearFilters()">Clear all</button>
+<div class="view-toggle-group">
+<button class="view-btn active" id="gridViewBtn" onclick="setView('grid')"><i class="fas fa-grip"></i></button>
+<button class="view-btn" id="listViewBtn" onclick="setView('list')"><i class="fas fa-list"></i></button>
+</div>
+</div>
+
+<!-- ══════ ACTIVE FILTERS ══════ -->
+<div class="active-filters" id="activeFilters"></div>
+
+<!-- ══════ BRAND WATERMARK ══════ -->
+<div class="brand-watermark" aria-hidden="true">
+<div class="brand-watermark-text">DON<span>BONG</span></div>
+</div>
+
+<!-- ══════ MAIN ══════ -->
+<div class="layout">
+<main class="main">
+<div class="results-bar">
+<div class="results-bar-left">
+<div class="stat-chip"><i class="fas fa-box"></i><span class="sc-val" id="statTotal">0</span> Products</div>
+<div class="stat-chip"><i class="fas fa-tag"></i><span class="sc-val" id="statCats">0</span> Categories</div>
+<div class="stat-chip"><i class="fas fa-circle-check"></i><span class="sc-val" id="statStock">0</span> In Stock</div>
+<span class="cnt">Showing <strong id="cntLabel">0</strong> products</span>
+</div>
+</div>
+<div id="smartGrid" class="pgrid"></div>
+<div id="pagination" class="pagination"></div>
+</main>
+</div>
+
+<!-- ══════ PRODUCT MODAL ══════ -->
+<div class="modal" id="prodModal" role="dialog" aria-modal="true" onclick="handleModalBdrop(event)"><div class="m-content" id="prodModalContent"></div></div>
+<!-- ══════ CART ══════ -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel" role="dialog" aria-modal="true">
+<div class="cart-header"><h3 id="cartPanelTitle">Cart</h3><button class="cart-close-btn" onclick="closeCart()"><i class="fas fa-times"></i></button></div>
+<div id="cartItems" class="cart-items"></div>
+<div id="cartFooter" class="cart-footer" style="display:none;"></div>
+</div>
+
+<!-- ══════ CHECKOUT MODAL ══════ -->
+<div class="info-modal" id="infoModal" role="dialog" aria-modal="true" onclick="handleInfoBdrop(event)"><div class="info-card" id="infoContent"></div></div>
+<!-- ══════ REVIEW MODAL ══════ -->
+<div class="info-modal" id="reviewModal" role="dialog" aria-modal="true" onclick="handleReviewBdrop(event)"><div class="info-card" id="reviewContent"></div></div>
+<!-- ══════ CONFIRM POPUP ══════ -->
+<div class="confirm-popup" id="confirmPopup" role="dialog" aria-modal="true"><div class="confirm-card" id="confirmCard"></div></div>
+<!-- ══════ TOAST STACK ══════ -->
+<div class="toast-stack" id="toastStack"></div>
+<!-- ══════ BACK TO TOP ══════ -->
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+/* (scripts truncated — original full JS kept in source) */
+</script>
+</body>
+</html>

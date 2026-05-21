@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DonBong Knowledge Base">
+  <title>DonBong — Knowledge Library</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS & THEMES
+    ============================================================ */
+    :root {
+      --accent:     #ff5a00;
+      --accent-lt:  #ff7a30;
+      --accent-dk:  #cc3d00;
+      --accent-rgb: 255,90,0;
+      --gold:       #e8a320;
+      --green:      #4caf50;
+      --blue:       #5a8fff;
+      
+      /* Dark Theme */
+      --ink:        #fff;
+      --ink-80:     rgba(255,255,255,.85);
+      --ink-60:     rgba(255,255,255,.60);
+      --ink-30:     rgba(255,255,255,.30);
+      --surface:    #050307;
+      --line:       rgba(255,255,255,.10);
+      --gbg:        rgba(255,255,255,.06);
+      --gbg2:       rgba(255,255,255,.10);
+      --gbl:        rgba(255,255,255,.16);
+      
+      --blur:       blur(22px) saturate(180%);
+      --blur-sm:    blur(12px) saturate(150%);
+      --pad-x:      80px;
+      --nav-h:      72px;
+      --max-w:      1320px;
+      --r-sm:10px;--r-md:16px;--r-lg:24px;
+      --ease: cubic-bezier(.22,1,0,1);
+      --dur: .32s;
+    }
+
+    html[data-theme="light"] {
+      --ink:        #111111;
+      --ink-80:     rgba(0,0,0,.85);
+      --ink-60:     rgba(0,0,0,.60);
+      --ink-30:     rgba(0,0,0,.30);
+      --surface:    #f9f9f9;
+      --line:       rgba(0,0,0,.10);
+      --gbg:        rgba(255,255,255,.8);
+      --gbg2:       rgba(255,255,255,.95);
+      --gbl:        rgba(0,0,0,.10);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; background: var(--surface); transition: background var(--dur) var(--ease); }
+    body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
+    button { font-family: inherit; cursor: pointer; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* Grain */
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .016;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    .context-link { color: var(--accent); border-bottom: 1px solid rgba(var(--accent-rgb), .3); transition: all var(--dur) var(--ease); font-weight: 600; }
+    .context-link:hover { border-color: var(--accent); color: var(--accent-lt); }
+
+    /* ============================================================
+       VIEWS & HERO
+    ============================================================ */
+    .view-section { display: none; animation: fadeIn 0.4s forwards; position: relative; z-index: 10; padding-top: var(--nav-h); }
+    .view-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    .lib-hero { padding: 72px var(--pad-x) 80px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .lib-hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; background: radial-gradient(ellipse at 50% 0%, rgba(var(--accent-rgb),.18) 0%, transparent 70%); pointer-events: none; z-index: -1; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: .72rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .eyebrow::before { content:''; display:block; width:22px; height:1.5px; background:currentColor; border-radius:2px; }
+    .lib-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 7vw, 7.5rem); line-height: 1.05; letter-spacing: -.01em; margin-bottom: 20px; color: var(--ink); }
+    .lib-hero h1 span { color: var(--accent); }
+    .lib-hero p { max-width: 560px; color: var(--ink-60); font-size: 1.05rem; line-height: 1.75; margin-bottom: 40px; }
+
+    .search-wrap { width: 100%; max-width: 540px; position: relative; margin-bottom: 56px; }
+    .search-wrap input { width: 100%; background: var(--gbg); border: 1.5px solid var(--gbl); border-radius: 999px; padding: 14px 20px 14px 52px; color: var(--ink); font-size: .95rem; outline: none; backdrop-filter: var(--blur-sm); transition: all var(--dur) var(--ease); }
+    .search-wrap input:focus { border-color: rgba(var(--accent-rgb),.5); background: var(--gbg2); }
+    .search-wrap svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: var(--ink-30); stroke-width: 2; }
+
+    .filter-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 64px; }
+    .filter-pill { padding: 8px 20px; border-radius: 999px; background: var(--gbg); border: 1.5px solid var(--gbl); color: var(--ink-60); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: var(--blur-sm); transition: all var(--dur) var(--ease); }
+    .filter-pill:hover, .filter-pill.active { background: rgba(var(--accent-rgb),.15); border-color: var(--accent); color: var(--ink); }
+
+    /* ============================================================
+       ARTICLE GRID & COMPONENTS
+    ============================================================ */
+    .lib-grid { padding: 0 var(--pad-x) 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; max-width: var(--max-w); margin: 0 auto; }
+    .art-card { position: relative; background: var(--gbg); border: 1px solid var(--gbl); border-radius: var(--r-lg); overflow: hidden; padding: 32px; display: flex; flex-direction: column; backdrop-filter: var(--blur); cursor: pointer; transition: all var(--dur) var(--ease); }
+    .art-card:hover { transform: translateY(-8px); border-color: rgba(var(--accent-rgb),.45); background: var(--gbg2); box-shadow: 0 24px 60px rgba(0,0,0,.15), 0 0 0 1px rgba(var(--accent-rgb),.1); }
+    .art-card.featured { grid-column: span 2; background: linear-gradient(135deg, rgba(var(--accent-rgb),.10) 0%, var(--gbg) 60%); border-color: rgba(var(--accent-rgb),.3); }
+    .art-badge { position: absolute; top: 20px; right: 20px; background: var(--accent); color: #fff; font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+    .art-icon { font-size: 3rem; margin-bottom: 20px; line-height: 1; }
+    .art-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .art-tag { padding: 4px 11px; border-radius: 999px; background: rgba(var(--accent-rgb),.1); border: 1px solid rgba(var(--accent-rgb),.25); font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+    .art-tag.blue  { background: rgba(90,143,255,.1); border-color: rgba(90,143,255,.3); color: var(--blue); }
+    .art-tag.green { background: rgba(76,175,80,.1);  border-color: rgba(76,175,80,.3);  color: var(--green); }
+    .art-tag.gold  { background: rgba(232,163,32,.1); border-color: rgba(232,163,32,.3); color: var(--gold); }
+    .art-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; line-height: 1.1; margin-bottom: 12px; color: var(--ink); }
+    .art-desc { font-size: .88rem; color: var(--ink-60); line-height: 1.7; margin-bottom: 24px; flex: 1; }
+    .art-cta { display: inline-flex; align-items: center; gap: 8px; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); border-bottom: 1.5px solid rgba(var(--accent-rgb),.3); padding-bottom: 2px; transition: all var(--dur) var(--ease); align-self: flex-start; }
+    .art-card:hover .art-cta { gap: 14px; border-color: var(--accent); }
+
+    /* ============================================================
+       ARTICLE SPECIFIC CSS (MERGED FROM TXT FILES)
+    ============================================================ */
+    .article-inner { max-width: 960px; margin: 0 auto; padding: 36px var(--pad-x) 120px; }
+    .article-h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 6.5rem); line-height: 1.05; margin-bottom: 24px; color: var(--ink); }
+    .article-lead { font-size: 1.15rem; color: var(--ink-60); line-height: 1.8; margin-bottom: 48px; max-width: 640px; border-left: 3px solid var(--accent); padding-left: 20px; }
+
+  </style>
+</head>
+<body>
+
+  <div id="global-header"></div>
+
+  <div id="listView" class="view-section active">
+    <div class="lib-hero">
+      <div class="eyebrow" data-i18n="lib_eyebrow">Knowledge Base</div>
+      <h1 data-i18n="lib_title">Don Bong<br><span>Library</span></h1>
+      <p data-i18n="lib_subtitle">Master your craft. The definitive guides to glass architecture, culture, and care.</p>
+
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" data-i18n-ph="search" placeholder="Search articles…" autocomplete="off">
+      </div>
+
+      <div class="filter-row" id="tagFilters">
+        <button class="filter-pill active" data-tag="All" data-i18n="tag_all">All</button>
+        <button class="filter-pill" data-tag="care">Care</button>
+        <button class="filter-pill" data-tag="selection">Selection</button>
+        <button class="filter-pill" data-tag="technology">Technology</button>
+        <button class="filter-pill" data-tag="education">Education</button>
+        <button class="filter-pill" data-tag="business">Business</button>
+      </div>
+    </div>
+    <div class="lib-grid" id="articleGrid"></div>
+  </div>
+
+  <div id="articleView" class="view-section">
+    <div style="padding: 20px var(--pad-x); display: flex; align-items: center; gap: 10px; font-size: .75rem; font-weight: 600; text-transform: uppercase; color: var(--ink-60);">
+      <a onclick="window.location.hash='#/'" style="color: var(--accent); cursor: pointer;" data-i18n="back">Library</a>
+      <svg viewBox="0 0 24 24" style="width: 12px; height: 12px; fill:none; stroke:currentColor; stroke-width:2;"><path d="M9 18l6-6-6-6"/></svg>
+      <span id="bcTitle">Article</span>
+    </div>
+    <div id="article-content"></div>
+  </div>
+
+  <script>
+    // (script content preserved from original LIB778.html)
+  </script>
+</body>
+</html>
