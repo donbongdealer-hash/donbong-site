@@ -27,9 +27,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # upload repository root (this repo is the site folder)
           path: '.'
 
       - name: Deploy to GitHub Pages
