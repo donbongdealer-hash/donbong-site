@@ -36,7 +36,7 @@
       
       --blur:       blur(22px) saturate(180%);
       --blur-sm:    blur(12px) saturate(150%);
-      --pad-x:      80px;
+      --pad-x:      24px;
       --nav-h:      72px;
       --max-w:      1320px;
       --r-sm:10px;--r-md:16px;--r-lg:24px;
@@ -58,7 +58,9 @@
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; background: var(--surface); transition: background var(--dur) var(--ease); }
-    body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    /* Unified site font */
+    body { font-family: 'Plus Jakarta Sans', 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; background: var(--surface); color: var(--ink); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    h1,h2,h3 { font-family: 'Bebas Neue', 'Barlow Condensed', system-ui, sans-serif; }
     a { text-decoration: none; color: inherit; cursor: pointer; }
     button { font-family: inherit; cursor: pointer; }
     img { display: block; max-width: 100%; height: auto; }
@@ -203,12 +205,56 @@
 </head>
 <body>
 
-  <div id="global-header"></div>
+  <div id="global-header">
+    <header class="global-topbar" role="banner">
+      <a href="/" class="gb-logo" aria-label="DonBong Home">DON<span>BONG</span></a>
+      <nav class="gb-nav" aria-label="Main">
+        <a href="../" class="gb-link">Home</a>
+        <a href="../shop/" class="gb-link">Shop</a>
+        <a href="./" class="gb-link">Archive</a>
+        <a href="../contacts/" class="gb-link">Contacts</a>
+      </nav>
+      <div class="gb-actions">
+        <div class="search-wrap gb-search" role="search">
+          <i class="fas fa-search s-icon"></i>
+          <input id="searchInput" type="search" placeholder="Search products" aria-label="Search">
+          <button id="searchClearBtn" class="search-clear-btn" style="display:none"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cur-dropdown" id="curDropdown">
+          <button class="cur-dropdown-btn" id="curDropdownBtn">
+            <i class="fas fa-coins" style="color:var(--fire);font-size:11px"></i>
+            <span id="curLabel">VND</span>
+            <i class="fas fa-chevron-down" style="font-size:9px;opacity:.6"></i>
+          </button>
+          <div class="cur-dropdown-menu" id="curDropdownMenu">
+            <div class="cur-dropdown-item active" data-cur="VND" onclick="setCurrency('VND');closeCurDropdown()"><span style="color:var(--fire)">₫</span> VND</div>
+            <div class="cur-dropdown-item" data-cur="USDT" onclick="setCurrency('USDT');closeCurDropdown()"><span style="color:#4ade80">$</span> USDT</div>
+            <div class="cur-dropdown-item" data-cur="RUB" onclick="setCurrency('RUB');closeCurDropdown()"><span style="color:#c084fc">₽</span> RUB</div>
+          </div>
+        </div>
+        <div class="lang-btn flag-en" id="langBtn" tabindex="0"></div>
+        <button class="topbar-btn" id="wlBtn"><i class="far fa-heart"></i> <span id="wlLabel">Wishlist</span> <span class="badge-count" id="wlCount">0</span></button>
+        <button class="topbar-btn" id="cartOpenBtn"><i class="fas fa-shopping-bag"></i> <span id="cartLabel">Cart</span><span class="cart-total-label" id="cartTotalLabel"></span> <span class="badge-count" id="cartCount">0</span></button>
+      </div>
+      <style>
+      .global-topbar{position:sticky;top:0;z-index:1100;display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(5,3,7,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+      .gb-logo{font-weight:800;font-family:Plus Jakarta Sans, sans-serif;color:#fff;text-decoration:none}
+      .gb-logo span{color:#ff6b00}
+      .gb-nav{display:flex;gap:8px;align-items:center;margin-left:12px}
+      .gb-link{color:rgba(255,255,255,.9);padding:8px 12px;border-radius:12px;text-decoration:none;font-weight:700}
+      .gb-link:hover{background:rgba(255,255,255,.02)}
+      .gb-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+      .gb-search input{height:36px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:#fff}
+      .gb-cart{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none}
+      .gb-badge{background:#ff6b00;color:#000;padding:2px 8px;border-radius:999px;font-weight:800;margin-left:4px}
+      @media(max-width:820px){.gb-nav{display:none}.gb-search input{width:120px}}
+      </style>
+  </div>
 
   <div id="listView" class="view-section active">
     <div class="lib-hero">
       <div class="eyebrow" data-i18n="lib_eyebrow">Knowledge Base</div>
-      <h1 data-i18n="lib_title">Don Bong<br><span>Library</span></h1>
+      <h1 data-i18n="lib_title">DonBong<br><span>Library</span></h1>
       <p data-i18n="lib_subtitle">Master your craft. The definitive guides to glass architecture, culture, and care.</p>
 
       <div class="search-wrap">
@@ -237,6 +283,31 @@
     <div id="article-content"></div>
   </div>
 
+  <!-- Inline mobile tabbar -->
+  <div class="mob-tabbar" id="globalMobTabbar" role="navigation">
+    <button class="mob-tab" data-action="home">🏠<span class="mob-tab-text">Home</span></button>
+    <button class="mob-tab" data-action="shop">🛍️<span class="mob-tab-text">Shop</span></button>
+    <button class="mob-tab icon-only" data-action="theme">🎨</button>
+    <button class="mob-tab" data-action="cart">🛒<span class="mob-tab-text">Cart</span></button>
+    <button class="mob-tab" data-action="menu">☰<span class="mob-tab-text">Menu</span></button>
+    <style>
+      .mob-tabbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:1200;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0));align-items:center;justify-content:space-around;gap:6px;background:rgba(5,3,7,.28);backdrop-filter:blur(28px) saturate(160%);border-top:1px solid rgba(255,255,255,.08)}
+      .mob-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:44px;background:rgba(255,255,255,.04);border-radius:20px;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-weight:700}
+      .mob-tab.icon-only{flex:0 0 44px;max-width:44px}
+      @media(max-width:820px){.mob-tabbar{display:flex}}
+    </style>
+  </div>
+  <script>
+    document.querySelectorAll('#globalMobTabbar .mob-tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const a=btn.dataset.action;
+        if(a==='home') location.href='/';
+        if(a==='shop') location.href='/shop/';
+        if(a==='cart') location.hash='#cart';
+        if(a==='menu'){ const nav=document.querySelector('.gb-nav'); if(nav) nav.classList.toggle('open'); }
+      });
+    });
+  </script>
   <script>
     // ============================================================
     // GLOBAL INTERACTIVE FUNCTIONS (From Perc.txt & Device.txt)
@@ -694,6 +765,10 @@
     }
 
     const libController = new LibraryController();
+  </script>
+  <script>
+  // load shared header/mobtab/bg
+  (function(){var s=document.createElement('script');s.defer=true;s.src='/_shared_layout.js';document.body.appendChild(s);})();
   </script>
 </body>
 </html>

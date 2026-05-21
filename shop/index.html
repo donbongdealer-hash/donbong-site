@@ -28,11 +28,14 @@
 --neon: 0 0 18px var(--fire-glow), 0 0 50px rgba(255,107,0,.22);
 --c-bongs: #00c8ff; --c-pipes: #c084fc; --c-vaporizers: #4ade80; --c-grinders: #facc15; --c-accessories: #ff6b00; --c-storage: #b5179e; --c-offers: #f9c74f; --c-gear: #f9844a;
 --header-h: 68px;
+--pad-x: 24px; --max-w: 1320px;
 }
 img { display: block; max-width: 100%; }
 ::-webkit-scrollbar { width: 4px; height: 4px; } ::-webkit-scrollbar-track { background: var(--void); } ::-webkit-scrollbar-thumb { background: var(--fire); border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: var(--fire-hi); }
 html { scroll-behavior: smooth; }
-body { background: var(--void); font-family: var(--sans); color: var(--text); line-height: 1.55; overflow-x: hidden; }
+/* Unified font across site */
+body { background: var(--void); font-family: 'Plus Jakarta Sans', var(--sans), system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: 'Bebas Neue', 'Syne', var(--display), system-ui, sans-serif; }
 button, [role="button"], select, input { touch-action: manipulation; }
 :focus-visible { outline: 2px solid var(--fire); outline-offset: 3px; border-radius: 6px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } .orb { display: none; } }
@@ -86,7 +89,7 @@ button, [role="button"], select, input { touch-action: manipulation; }
 .view-toggle-group { display:flex;gap:4px;margin-left:auto; } .view-btn { width:30px;height:30px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--rim);border-radius:8px;cursor:pointer;color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:12px;transition:.2s; } .view-btn.active { background:var(--fire-lo);border-color:rgba(255,107,0,.45);color:var(--fire); } .view-btn:hover:not(.active) { border-color:rgba(255,107,0,.3);color:var(--fire-hi); }
 .active-filters { display:none;flex-wrap:wrap;gap:6px;padding:8px 20px;background:rgba(255,107,0,.03);border-bottom:1px solid var(--rim);align-items:center; } .active-filters.visible { display:flex; } .af-label { font-size:10px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-right:4px; } .af-chip { display:flex;align-items:center;gap:5px;background:var(--fire-lo);border:1px solid rgba(255,107,0,.3);border-radius:30px;padding:3px 10px;font-size:11px;color:var(--fire);cursor:pointer;transition:all .15s;font-family:var(--mono); } .af-chip:hover { background:rgba(255,107,0,.22); } .af-chip i { font-size:9px; }
 /* LAYOUT + RESULTS BAR */
-.layout { max-width:1840px;margin:0 auto; } .main { padding:24px 20px; }
+.layout { max-width:var(--max-w);margin:0 auto; } .main { padding:24px var(--pad-x); }
 .results-bar { display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:10px;flex-wrap:wrap; }
 .results-bar-left { display:flex;align-items:center;gap:7px;flex-wrap:wrap; }
 .results-bar .cnt { font-size:12px;color:var(--text-dim);font-family:var(--mono); } .results-bar .cnt strong { color:var(--fire); }
@@ -233,56 +236,56 @@ button, [role="button"], select, input { touch-action: manipulation; }
 <div class="noise" aria-hidden="true"><div></div></div>
 <div class="offline-banner" id="offlineBanner"><i class="fas fa-wifi-slash"></i> No internet connection</div>
 
-<!-- ══════ TOPBAR ══════ -->
-<div class="topbar" id="mainTopbar">
-<a href="https://www.donbong.com/" target="_top" class="logo" aria-label="DonBong home" id="logoBtn">DON<span>BONG</span><sup>™</sup></a>
-<a href="https://www.donbong.com/" target="_top" class="topbar-btn tb-secondary" title="Main Site"><i class="fas fa-home"></i><span class="tb-lbl">Home</span></a>
-<a href="https://www.donbong.com/library" target="_top" class="topbar-btn tb-secondary" title="Knowledge Library"><i class="fas fa-book-open"></i><span class="tb-lbl">Library</span></a>
-<div class="search-wrap">
-<i class="fas fa-search s-icon"></i>
-<input type="text" id="searchInput" placeholder="Search products... (Ctrl+K)" autocomplete="off" aria-label="Search products">
-<button class="search-clear-btn" id="searchClearBtn"><i class="fas fa-times"></i></button>
-</div>
-<div class="cur-dropdown" id="curDropdown">
-<button class="cur-dropdown-btn" id="curDropdownBtn" onclick="toggleCurDropdown()">
-<i class="fas fa-coins" style="color:var(--fire);font-size:11px"></i>
-<span id="curLabel">VND</span>
-<i class="fas fa-chevron-down" style="font-size:9px;opacity:.6"></i>
-</button>
-<div class="cur-dropdown-menu" id="curDropdownMenu">
-<div class="cur-dropdown-item active" data-cur="VND" onclick="setCurrency('VND');closeCurDropdown()"><span style="color:var(--fire)">₫</span> VND</div>
-<div class="cur-dropdown-item" data-cur="USDT" onclick="setCurrency('USDT');closeCurDropdown()"><span style="color:#4ade80">$</span> USDT</div>
-<div class="cur-dropdown-item" data-cur="RUB" onclick="setCurrency('RUB');closeCurDropdown()"><span style="color:#c084fc">₽</span> RUB</div>
-</div>
-</div>
-<div class="lang-btn flag-en" id="langBtn" tabindex="0"></div>
-<button class="topbar-btn" id="wlBtn" onclick="toggleWishlistMode()"><i class="far fa-heart"></i> <span id="wlLabel">Wishlist</span> <span class="badge-count" id="wlCount">0</span></button>
-<button class="topbar-btn" id="cartOpenBtn" onclick="openCart()"><i class="fas fa-shopping-bag"></i> <span id="cartLabel">Cart</span><span class="cart-total-label" id="cartTotalLabel"></span> <span class="badge-count" id="cartCount">0</span></button>
-</div>
-
 <!-- ══════ CAT STRIP ══════ -->
 <div class="cat-strip" id="catStrip"></div>
 
-<!-- ══════ FILTER BAR ══════ -->
-<div class="filter-bar">
-<select id="stockFilter" class="filter-select" onchange="applyFilters()"><option value="instock">In stock</option><option value="all">All</option></select>
-<select id="materialFilter" class="filter-select" onchange="applyFilters()"><option value="">All materials</option><option value="borosilicate">Glass</option><option value="acrylic">Acrylic</option><option value="metal">Metal</option><option value="silicone">Silicone</option></select>
-<select id="brandFilter" class="filter-select" onchange="applyFilters()"><option value="">All brands</option></select>
-<div class="price-range-wrap"><i class="fas fa-coins p-icon"></i><input type="number" id="priceMin" placeholder="min" value="0"><span class="p-sep">—</span><input type="number" id="priceMax" placeholder="max" value="10000000"></div>
-<select id="sortSelect" class="filter-select" onchange="applyFilters()"><option value="default">Default</option><option value="price_asc">Price ↑</option><option value="price_desc">Price ↓</option><option value="popular">Popular</option><option value="newest">Newest</option></select>
-<button class="clear-filters-btn" onclick="clearFilters()">Clear all</button>
-<div class="view-toggle-group">
-<button class="view-btn active" id="gridViewBtn" onclick="setView('grid')"><i class="fas fa-grip"></i></button>
-<button class="view-btn" id="listViewBtn" onclick="setView('list')"><i class="fas fa-list"></i></button>
+<!-- Unified header (inlined) -->
+<div id="global-header">
+	<header class="global-topbar" role="banner">
+		<a href="/" class="gb-logo" aria-label="DonBong Home">DON<span>BONG</span></a>
+		<nav class="gb-nav" aria-label="Main">
+			<a href="../" class="gb-link">Home</a>
+			<a href="./" class="gb-link">Shop</a>
+			<a href="../library/" class="gb-link">Archive</a>
+			<a href="../contacts/" class="gb-link">Contacts</a>
+		</nav>
+		<div class="gb-actions">
+			<div class="search-wrap gb-search" role="search">
+				<i class="fas fa-search s-icon"></i>
+				<input id="searchInput" type="search" placeholder="Search products" aria-label="Search">
+				<button id="searchClearBtn" class="search-clear-btn" style="display:none"><i class="fas fa-times"></i></button>
+			</div>
+			<div class="cur-dropdown" id="curDropdown">
+				<button class="cur-dropdown-btn" id="curDropdownBtn">
+					<i class="fas fa-coins" style="color:var(--fire);font-size:11px"></i>
+					<span id="curLabel">VND</span>
+					<i class="fas fa-chevron-down" style="font-size:9px;opacity:.6"></i>
+				</button>
+				<div class="cur-dropdown-menu" id="curDropdownMenu">
+					<div class="cur-dropdown-item active" data-cur="VND" onclick="setCurrency('VND');closeCurDropdown()"><span style="color:var(--fire)">₫</span> VND</div>
+					<div class="cur-dropdown-item" data-cur="USDT" onclick="setCurrency('USDT');closeCurDropdown()"><span style="color:#4ade80">$</span> USDT</div>
+					<div class="cur-dropdown-item" data-cur="RUB" onclick="setCurrency('RUB');closeCurDropdown()"><span style="color:#c084fc">₽</span> RUB</div>
+				</div>
+			</div>
+			<div class="lang-btn flag-en" id="langBtn" tabindex="0"></div>
+			<button class="topbar-btn" id="wlBtn"><i class="far fa-heart"></i> <span id="wlLabel">Wishlist</span> <span class="badge-count" id="wlCount">0</span></button>
+			<button class="topbar-btn" id="cartOpenBtn"><i class="fas fa-shopping-bag"></i> <span id="cartLabel">Cart</span><span class="cart-total-label" id="cartTotalLabel"></span> <span class="badge-count" id="cartCount">0</span></button>
+		</div>
+		<style>
+		.global-topbar{position:sticky;top:0;z-index:1100;display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(5,3,7,.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+		.gb-logo{font-weight:800;font-family:Plus Jakarta Sans, sans-serif;color:#fff;text-decoration:none}
+		.gb-logo span{color:#ff6b00}
+		.gb-nav{display:flex;gap:8px;align-items:center;margin-left:12px}
+		.gb-link{color:rgba(255,255,255,.9);padding:8px 12px;border-radius:12px;text-decoration:none;font-weight:700}
+		.gb-link:hover{background:rgba(255,255,255,.02)}
+		.gb-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+		.gb-search input{height:36px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:#fff}
+		.gb-cart{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none}
+		.gb-badge{background:#ff6b00;color:#000;padding:2px 8px;border-radius:999px;font-weight:800;margin-left:4px}
+		@media(max-width:820px){.gb-nav{display:none}.gb-search input{width:120px}}
+		</style>
+	</header>
 </div>
-</div>
-
-<!-- ══════ ACTIVE FILTERS ══════ -->
-<div class="active-filters" id="activeFilters"></div>
-
-<!-- ══════ BRAND WATERMARK ══════ -->
-<div class="brand-watermark" aria-hidden="true">
-<div class="brand-watermark-text">DON<span>BONG</span></div>
 </div>
 
 <!-- ══════ MAIN ══════ -->
@@ -329,6 +332,12 @@ CONFIG — РАБОТАЕМ С БОЕВЫМ API (USE_MOCK = false)
 const USE_MOCK = false; 
 const WORKER_URL = 'https://donbong-db-gateway.donbongdealer.workers.dev/getCatalog';
 const GAS_URL = '';
+// Local/dev API candidate (donprod) — tried automatically when available
+const LOCAL_API_CANDIDATES = [
+	'http://localhost:3000/getCatalog',
+	'http://localhost:3000/catalog',
+	'http://127.0.0.1:3000/getCatalog'
+];
 const EX = { VND: 1, USDT: 0.00004, RUB: 0.0038 };
 const FREE_SHIP = 150000;
 const SHIP_COST = 30000;
@@ -408,13 +417,13 @@ window.addEventListener('scroll',()=>{
 const h=document.documentElement.scrollHeight-window.innerHeight;
 document.getElementById('scrollProgress').style.width=(window.scrollY/h*100)+'%';
 document.getElementById('backToTop').classList.toggle('visible',window.scrollY>400);
-const tb=document.getElementById('mainTopbar');
+const tb=document.querySelector('#global-header .global-topbar') || document.querySelector('.global-topbar');
 if(tb) {
-tb.classList.toggle('scrolled', window.scrollY>60);
-const tbH=tb.offsetHeight;
-document.documentElement.style.setProperty('--header-h', tbH+'px');
-const catStrip=document.querySelector('.cat-strip');
-if(catStrip) catStrip.style.top=tbH+'px';
+	tb.classList.toggle('scrolled', window.scrollY>60);
+	const tbH=tb.offsetHeight;
+	document.documentElement.style.setProperty('--header-h', tbH+'px');
+	const catStrip=document.querySelector('.cat-strip');
+	if(catStrip) catStrip.style.top=tbH+'px';
 }
 },{ passive:true });
 
@@ -548,7 +557,7 @@ createdAt:Date.now()
 /* ══════════════════════════════════════════════════
 FILTERS STATE
 ══════════════════════════════════════════════════ */
-let filters={ stock:'instock',catKey:'all',subCat:[],material:'',brand:'',priceMin:0,priceMax:10000000,wishlistMode:false,sort:'default' };
+let filters={ stock:'all',catKey:'all',subCat:[],material:'',brand:'',priceMin:0,priceMax:10000000,wishlistMode:false,sort:'default' };
 
 /* ══════════════════════════════════════════════════
 ACTIVE FILTER CHIPS
@@ -562,7 +571,8 @@ if(filters.material) chips.push({label:filters.material,rm:()=>{document.getElem
 if(filters.brand) chips.push({label:filters.brand,rm:()=>{document.getElementById('brandFilter').value='';filters.brand='';applyFilters();}});
 if(filters.wishlistMode) chips.push({label:t('wishlist'),rm:()=>{filters.wishlistMode=false;document.getElementById('wlBtn').classList.remove('wl-active');applyFilters();}});
 const bar=document.getElementById('activeFilters');
-if(!chips.length){bar.classList.remove('visible');return;}
+if(!bar) return;
+if(!chips.length){ bar.classList.remove('visible'); return; }
 bar.classList.add('visible');
 afActions.length=0;
 chips.forEach(c=>afActions.push(c.rm));
@@ -574,7 +584,7 @@ APPLY FILTERS
 ══════════════════════════════════════════════════ */
 function applyFilters(){
 const q=(document.getElementById('searchInput')?.value||'').toLowerCase().trim();
-filters.stock =document.getElementById('stockFilter')?.value||'instock';
+	filters.stock =document.getElementById('stockFilter')?.value||'all';
 filters.material =document.getElementById('materialFilter')?.value||'';
 filters.brand =document.getElementById('brandFilter')?.value||'';
 filters.priceMin =parseInt(document.getElementById('priceMin')?.value)||0;
@@ -611,7 +621,7 @@ searchTimer=setTimeout(()=>{page=1;applyFilters();},280);
 function clearSearch(){ document.getElementById('searchInput').value=''; document.getElementById('searchClearBtn').style.display='none'; page=1; applyFilters(); }
 
 function clearFilters(){
-filters={stock:'instock',catKey:'all',subCat:[],material:'',brand:'',priceMin:0,priceMax:10000000,wishlistMode:false,sort:'default'};
+filters={stock:'all',catKey:'all',subCat:[],material:'',brand:'',priceMin:0,priceMax:10000000,wishlistMode:false,sort:'default'};
 document.getElementById('searchInput').value='';
 document.getElementById('searchClearBtn').style.display='none';
 document.getElementById('stockFilter').value='instock';
@@ -1366,11 +1376,39 @@ buildCatStrip(); updateLangFlag(); document.documentElement.lang = currentLang; 
 document.getElementById('smartGrid').innerHTML = Array(9).fill('<div class="skeleton"></div>').join('');
 
 try {
-const response = await fetch(WORKER_URL + '?action=getCatalog', { cache: 'no-store' });
-if (!response.ok) throw new Error(`HTTP ${response.status}`);
-const data = await response.json();
-const products = Array.isArray(data) ? data : (data.items || data.products || []);
-all = products.map((p, i) => enrich(p, i));
+	// Try multiple sources: window.DB.API_URL (if configured), WORKER_URL, then local candidates
+	// Prefer local dev candidates first, then gateway
+	const candidates = [];
+	candidates.push(...LOCAL_API_CANDIDATES);
+	candidates.push(WORKER_URL + (WORKER_URL.includes('?') ? '' : '?action=getCatalog'));
+	// If a DB API base is provided, try replacing common endpoints to form a catalog URL
+	if (window.DB && window.DB.API_URL) {
+		try {
+			const base = window.DB.API_URL.replace(/\/orders\/?$/i, '');
+			candidates.push(base + '/getCatalog');
+		} catch (err) {}
+	}
+
+	let data = null;
+	let lastErr = null;
+	for (const url of candidates) {
+		try {
+			const response = await fetch(url, { cache: 'no-store' });
+			if (!response.ok) throw new Error(`HTTP ${response.status} @ ${url}`);
+			data = await response.json();
+			console.log('Catalog loaded from', url);
+			break;
+		} catch (err) {
+			lastErr = err;
+			console.warn('Catalog load failed from', url, err);
+			continue;
+		}
+	}
+
+	if (!data) throw lastErr || new Error('No catalog source available');
+	const products = Array.isArray(data) ? data : (data.items || data.products || []);
+	all = products.map((p, i) => enrich(p, i));
+
 } catch (e) {
 console.warn('Ошибка загрузки каталога, использую fallback', e);
 all = [
@@ -1384,7 +1422,10 @@ const elTotal = document.getElementById('statTotal'), elCats = document.getEleme
 if(elTotal) countUp(elTotal, totalV, 1200); if(elCats) countUp(elCats, catsV, 900); if(elStock) countUp(elStock, stockV, 1400);
 
 const brands = [...new Set(all.map(p => p.brand).filter(Boolean))].sort();
-const bf = document.getElementById('brandFilter'); brands.forEach(b => { const o = document.createElement('option'); o.value = b; o.text = b; bf.appendChild(o); });
+const bf = document.getElementById('brandFilter');
+if(bf){
+	brands.forEach(b => { const o = document.createElement('option'); o.value = b; o.text = b; bf.appendChild(o); });
+}
 
 applyFilters(); updateCounters(); updateCartTotalLabel();
 if(typeof track === 'function'){ try{ track('visit', { page: window.location.href }); } catch(e){} }
@@ -1418,49 +1459,32 @@ console.log('[DB Shop] System initialized', DB.user ? 'User found' : 'No user');
 })();
 </script>
 
-<!-- Floating User Panel -->
-<div id="db-user-floating" style="position: fixed; bottom: 80px; right: 20px; z-index: 999999; font-size: 13px; font-family: 'DM Sans', sans-serif; background: rgba(20,20,30,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 40px; border: 1px solid rgba(255,90,0,0.3); color: #fff; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2);"></div>
-<div id="ask-bong-btn" style="position:fixed;bottom:24px;right:24px;z-index:998;"></div>
-<div id="ask-bong-modal"></div>
-
-<script>
-(function(){
-const container = document.getElementById('db-user-floating'); if (!container) return;
-let currentUser = window.DB ? window.DB.user : null;
-function render() {
-if (currentUser) {
-container.innerHTML = `<span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-user-circle" style="color:#ff5a00;"></i> ${currentUser.name}</span>`;
-container.style.pointerEvents = 'none';
-} else {
-container.innerHTML = '<span id="db-login-trigger" style="cursor:pointer;pointer-events:auto;display:flex;align-items:center;gap:6px;"><i class="fas fa-key" style="color:#ff5a00;"></i> Sign In</span>';
-container.style.pointerEvents = 'none';
-const trigger = document.getElementById('db-login-trigger');
-if (trigger) { trigger.addEventListener('click', function(e) { e.stopPropagation(); showLoginForm(); }); }
-}
-}
-function showLoginForm() {
-const existing = document.getElementById('db-login-modal'); if (existing) existing.remove();
-const modal = document.createElement('div'); modal.id = 'db-login-modal';
-modal.style.cssText = `position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); z-index: 10000000; display: flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif;`;
-modal.innerHTML = `<div style="background: #0f0f1a; border: 1px solid #ff5a00; border-radius: 24px; padding: 32px; width: 360px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); color: #fff;"><h3 style="margin:0 0 8px; font-family:'Bebas Neue',sans-serif; font-size:28px; color:#ff5a00;">WELCOME</h3><p style="margin:0 0 24px; color:#aaa; font-size:14px;">Sign in to access member perks</p><input id="db-login-name" placeholder="Your name" style="width:100%; padding:12px; margin-bottom:12px; background:#1a1a2a; border:1px solid #333; border-radius:8px; color:#fff; font-size:14px;" /><input id="db-login-contact" placeholder="Telegram / Instagram" style="width:100%; padding:12px; margin-bottom:24px; background:#1a1a2a; border:1px solid #333; border-radius:8px; color:#fff; font-size:14px;" /><div style="display:flex; gap:10px;"><button id="db-login-cancel" style="flex:1; padding:12px; background:transparent; border:1px solid #555; border-radius:40px; color:#ccc; cursor:pointer;">Cancel</button><button id="db-login-submit" style="flex:1; padding:12px; background:#ff5a00; border:none; border-radius:40px; color:#fff; font-weight:700; cursor:pointer;">Sign In</button></div></div>`;
-document.body.appendChild(modal);
-const nameInp = document.getElementById('db-login-name'), contactInp = document.getElementById('db-login-contact');
-const cancelBtn = document.getElementById('db-login-cancel'), submitBtn = document.getElementById('db-login-submit');
-function closeModal() { modal.remove(); }
-cancelBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-submitBtn.addEventListener('click', function() {
-const name = nameInp.value.trim(), contact = contactInp.value.trim();
-if (!name || !contact) { alert('Both fields are required'); return; }
-const user = { name, contact, created_at: Date.now() };
-localStorage.setItem('db_user', JSON.stringify(user));
-if (window.DB) window.DB.user = user; currentUser = user; render(); closeModal();
-});
-nameInp.focus();
-}
-render();
-window.addEventListener('db-user-updated', function() { if (window.DB) currentUser = window.DB.user; render(); });
-})();
-</script>
+<!-- Consultant UI removed temporarily -->
 </body>
+</html>
+<!-- Inline mobile tabbar -->
+<div class="mob-tabbar" id="globalMobTabbar" role="navigation">
+	<button class="mob-tab" data-action="home">🏠<span class="mob-tab-text">Home</span></button>
+	<button class="mob-tab" data-action="shop">🛍️<span class="mob-tab-text">Shop</span></button>
+	<button class="mob-tab icon-only" data-action="theme">🎨</button>
+	<button class="mob-tab" data-action="cart">🛒<span class="mob-tab-text">Cart</span></button>
+	<button class="mob-tab" data-action="menu">☰<span class="mob-tab-text">Menu</span></button>
+	<style>
+		.mob-tabbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:1200;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0));align-items:center;justify-content:space-around;gap:6px;background:rgba(5,3,7,.28);backdrop-filter:blur(28px) saturate(160%);border-top:1px solid rgba(255,255,255,.08)}
+		.mob-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:44px;background:rgba(255,255,255,.04);border-radius:20px;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-weight:700}
+		.mob-tab.icon-only{flex:0 0 44px;max-width:44px}
+		@media(max-width:820px){.mob-tabbar{display:flex}}
+	</style>
+</div>
+<script>
+	document.querySelectorAll('#globalMobTabbar .mob-tab').forEach(btn=>{
+		btn.addEventListener('click', ()=>{
+			const a=btn.dataset.action;
+			if(a==='home') location.href='/';
+			if(a==='shop') location.href='/shop/';
+			if(a==='cart') location.hash='#cart';
+			if(a==='menu'){ const nav=document.querySelector('.gb-nav'); if(nav) nav.classList.toggle('open'); }
+		});
+	});
+</script>
 </html>
