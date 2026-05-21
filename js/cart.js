@@ -151,7 +151,11 @@ export async function checkout() {
     });
     if (resp.ok) {
       const data = await resp.json().catch(() => ({}));
-      if (data && (data.success || data.orderId)) postedToLocal = true;
+      if (data && (data.success || data.orderId)) {
+        postedToLocal = true;
+        // prefer server-provided orderId when present
+        payload.orderId = data.orderId || payload.orderId;
+      }
     }
   } catch (e) {
     // network error — will fallback
@@ -160,7 +164,7 @@ export async function checkout() {
   }
 
   if (postedToLocal) {
-    showToast('Order received — thank you!');
+    showToast(`Order received — thank you! Order: ${payload.orderId}`);
     cart = [];
     saveCart();
     closeModal();
